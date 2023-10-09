@@ -1,11 +1,11 @@
-# Finite-State-Machine
+# Sequence Detector with a Finite State Machine
 Generates a Finite State Machine to recognize a binary sequence
 
 `sequence` can contain only `0`, `1` and don't cares (`-`).
 
 A don't care means either a `0` or a `1`.
 
-Let `n` be the length of the sequence to be recognized.
+Let `n` be the length of the sequence to be detected.
 
 The output of the fsm is either a `0` (do not match) or a `1` (match).
 
