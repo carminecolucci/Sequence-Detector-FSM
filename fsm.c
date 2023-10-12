@@ -10,7 +10,7 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
-#include <io.h>
+#include <errno.h>
 
 #include "fsm.h"
 #include "table.h"
