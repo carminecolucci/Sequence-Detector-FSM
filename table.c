@@ -4,14 +4,14 @@
  * @Name:	table.c
  */
 
+#include <errno.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
-#include <errno.h>
 
-#include "table.h"
 #include "fsm.h"
+#include "table.h"
 
 Table *get_table(Sequence *sequence, StatesList *list) {
 	Table *table = malloc(sizeof(Table) + sizeof(Row[list->nstates]));
