@@ -5,12 +5,12 @@
  * @Desc:	Finite state machine to recognize a given sequence
  */
 
+#include <errno.h>
+#include <stdarg.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
-#include <errno.h>
 
 #include "fsm.h"
 #include "table.h"
@@ -86,7 +86,7 @@ overlapping_mode get_mode() {
 	do {
 		printf("Enter overlap mode [0 None, 1 Partially, 2 Totally]: ");
 		scanf(" %d", &mode);
-		while ((c = getchar()) != EOF && c != '\n')		// clear input buffer
+		while ((c = getchar()) != EOF && c != '\n')	 // clear input buffer
 			;
 		if (mode < NOT_OVERLAPPING || mode > TOTALLY_OVERLAPPING)
 			printf("Invalid mode: %d\n", mode);
@@ -118,9 +118,9 @@ State *create_states(Sequence *sequence, State *reset, char *value) {
 		if (next_length == sequence->length)
 			state->left = state->right = reset;
 		else {
-			next[length] = '0';		// value + '0'
+			next[length] = '0';	 // value + '0'
 			state->left = create_states(sequence, reset, next);
-			next[length] = '1';		// value + '1'
+			next[length] = '1';	 // value + '1'
 			state->right = create_states(sequence, reset, next);
 		}
 	} else if (sequence->mode == PARTIALLY_OVERLAPPING) {
@@ -144,7 +144,7 @@ State *create_states(Sequence *sequence, State *reset, char *value) {
 			state->right = create_states(sequence, reset, next);
 		else
 			state->right = find_match(sequence, reset, next);
-	} else {	// TOTALLY_OVERLAPPING
+	} else {  // TOTALLY_OVERLAPPING
 		/**
 		 * find the best match for the next state (may be reset) if:
 		 * 1.	the next value equals sequence
@@ -176,19 +176,19 @@ void add_state_to_graph(State *reset, State *state) {
 	for (int i = 0; i < length - 1; ++i) {
 		if (state->value[i] == '0')
 			parent = parent->left;
-		else // value[i] == '1'
+		else  // value[i] == '1'
 			parent = parent->right;
 	}
 
 	// insert state as child
 	if (state->value[length - 1] == '0')
 		parent->left = state;
-	else // value[i] == '1'
+	else  // value[i] == '1'
 		parent->right = state;
 }
 
 State *find_match(Sequence *sequence, State *reset, char *value) {
-	++value; // start from the 2nd character
+	++value;  // start from the 2nd character
 	int length = strlen(value);
 	if (length == 0)
 		return reset;
@@ -200,7 +200,7 @@ State *find_match(Sequence *sequence, State *reset, char *value) {
 			if (match->left == NULL || match->left == reset)
 				exists = false;
 			match = match->left;
-		} else { // value[i] == '1'
+		} else {  // value[i] == '1'
 			if (match->right == NULL || match->right == reset)
 				exists = false;
 			match = match->right;
@@ -245,7 +245,7 @@ StatesList *get_states_list(Sequence *sequence) {
 	sequence->nstates = 1;
 	create_states(sequence, reset, "");
 
-	StatesList *states_list = malloc(sizeof(StatesList) + sizeof(State *[sequence->nstates]));
+	StatesList *states_list = malloc(sizeof(StatesList) + sizeof(State * [sequence->nstates]));
 	if (states_list == NULL)
 		error_exit("Could not create states list: %s\n", strerror(errno));
 
@@ -287,12 +287,12 @@ void list_qsort(StatesList *list, int left, int right) {
 		while (seqcmp(list->states[j]->value, list->states[pivot]->value) > 0)
 			j--;
 
-        if (i <= j) {
+		if (i <= j) {
 			swap(list->states, i, j);
 			i++;
 			j--;
-        }
-    }
+		}
+	}
 
 	swap(list->states, pivot, j);
 
@@ -334,7 +334,7 @@ void swap(State *states[], int i, int j) {
 void error_exit(char *format, ...) {
 	va_list args;
 	va_start(args, format);
-	if (isterminal(getfileno(stderr)))		// use red color if stderr is a terminal
+	if (isterminal(getfileno(stderr)))	// use red color if stderr is a terminal
 		fprintf(stderr, "\033[91m[X] ERROR\033[0m");
 	else
 		fprintf(stderr, "[X] ERROR");
