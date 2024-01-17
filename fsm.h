@@ -8,6 +8,8 @@
 #if !defined(FSM_H)
 #define FSM_H
 
+#include <stdbool.h>
+
 typedef enum overlapping_mode { NOT_OVERLAPPING, PARTIALLY_OVERLAPPING, TOTALLY_OVERLAPPING } overlapping_mode;
 
 #define MAXSEQ 4
